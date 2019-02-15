@@ -1,0 +1,23 @@
+#!define TEST_RUNNER {${FITSHARP_HOME}\Runner.exe}
+
+!|scenario        |ensure price of|inputHours   |build hours is|monthlyCosts|per month and|yearlyCosts|per year|
+|Set value of cell|BuildTime      |to           |@inputHours                                                   |
+|check            |Value Of Cell  |CostsPerMonth|@monthlyCosts                                                 |
+|Click Button     |Calculate Cost Per Year                                                                     |
+|Check            |Value Of Cell  |CostsPerYear |@yearlyCosts                                                  |
+
+!|script              |
+|Select Work sheet|2  |
+
+!|Ensure price of|input hours  |build hours is|monthly costs|per month and|yearly costs|per year|
+|input hours     |monthly costs|yearly costs                                                    |
+|0               |0            |0                                                               |
+|1               |0            |0                                                               |
+|2               |3            |36                                                              |
+|20              |57           |684                                                             |
+|100             |105          |1260                                                            |
+|100.738         |~=105.44     |~=1265                                                          |
+|1000            |645          |7740                                                            |
+|5110            |3111         |37332                                                           |
+
+

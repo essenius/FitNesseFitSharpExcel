@@ -1,0 +1,6 @@
+!|script                                           |
+|Set value of cell|BuildTime    |to           |100 |
+|check            |Value Of Cell|CostsPerMonth|105 |
+|Click Button     |Calculate Cost Per Year         |
+|Check            |Value Of Cell|CostsPerYear |1260|
+

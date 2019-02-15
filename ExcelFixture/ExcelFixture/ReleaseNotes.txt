@@ -1,0 +1,3 @@
+﻿2.0.0	Adopting Semantic Versioning with 3 levels.
+2.0.1   Moved to Excel 16.0 Office Library
+2.0.2   Increased code coverage

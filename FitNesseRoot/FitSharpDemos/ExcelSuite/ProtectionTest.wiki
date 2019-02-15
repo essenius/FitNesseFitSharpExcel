@@ -1,0 +1,62 @@
+Check initial state - neither the workbook nor the sheet  are protected
+
+!|script                                  |
+|reject          |workbook is protected   |
+|ensure          |Select Work sheet|Sheet2|
+|reject          |worksheet is protected  |
+
+Protect sheet and check if indeed cells can't be changed
+
+!|script                                         |
+|ensure|protect worksheet with password|secret   |
+|ensure|worksheet is protected with password     |
+|reject|Set value of cell              |$a$1|to|1|
+
+Check if unprotect with empty password fails
+!|script                                           |
+|reject|unprotect worksheet with password|         |
+|ensure|worksheet is protected                     |
+|reject|Set value of cell                |$a$1|to|2|
+
+Check if unprotect with wrong password fails
+
+!|script                                       |
+|reject|unprotect worksheet with password|wrong|
+|ensure|worksheet is protected                 |
+
+Unprotect with the right password, and check if changing cells works
+
+!|script                                           |
+|ensure|unprotect worksheet with password|secret   |
+|reject|worksheet is protected                     |
+|ensure|Set value of cell                |$a$1|to|2|
+
+Protect with an empty password, and check if changing is now blocked
+
+!|script                                         |
+|ensure|protect worksheet with password|         |
+|ensure|worksheet is protected                   |
+|reject|worksheet is protected with password     |
+|reject|Set value of cell              |$a$1|to|4|
+
+Try to re-protect with a password and check if that fails
+
+!|script                                    |
+|reject|protect worksheet with password|test|
+|reject|worksheet is protected with password|
+
+Unprotect with empty password should now succeed.
+
+!|script                                           |
+|ensure|unprotect worksheet with password|         |
+|reject|worksheet is protected                     |
+|ensure|Set value of cell                |$a$1|to|5|
+
+Protect workbook with a password, then unprotect
+
+!|script                                               |
+|protect workbook with password  |secret               |
+|ensure                          |workbook is protected|
+|unprotect workbook with password|secret               |
+|reject                          |workbook is protected|
+

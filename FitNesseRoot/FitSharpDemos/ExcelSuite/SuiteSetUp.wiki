@@ -1,0 +1,10 @@
+!| import        |
+|ExcelFixture    |
+|SupportFunctions|
+
+Check whether we can open the Excel sheet. If it works, $ok will be true.
+If Excel is not installed or if the sheet does not exist, this command will thrown an exception.
+Then $ok will not be set. We can use this in the test pages to stop the test
+
+!|script|Excel                                                            |
+|$ok=   |Load Workbook|ExcelFixture\ExcelFixtureTest\ExcelFixtureTest.xlsm|Read Only|

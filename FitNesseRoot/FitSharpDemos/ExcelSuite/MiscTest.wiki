@@ -1,0 +1,14 @@
+!|script                                                                                                        |
+|Select Work sheet|2                                                                                            |
+|set value of cell|BuildTime      |to           |100                                                            |
+|$cell=           |Last Cell                                                                                    |
+|check            |Value Of Cell  |$cell        |~=347                                                          |
+|check            |Text Of Cell   |$cell        |347.2222                                                       |
+|check            |Formula Of Cell|CostsPerMonth|=60*(MAX(BuildTime-1,0)*0.01 + MAX(MIN(BuildTime-1,19),0)*0.04)|
+|reject           |Click Button   |Button 2                                                                     |
+|$cpm=            |Cell with      |full         |text      |Costs per Month                                     |
+|$inputhours=     |offset         |$cpm         |by        |-1      |rows and     |1     |columns               |
+|check            |value of cell  |$inputhours  |100                                                            |
+|check            |offset         |A1           |by        |3       |rows and     |4     |columns     |$E$4     |
+|check            |execute        |Add(21,13)   |34                                                             |
+|check            |execute        |Add(32760,9) |32769                                                          |
