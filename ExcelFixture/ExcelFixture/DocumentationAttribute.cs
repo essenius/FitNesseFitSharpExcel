@@ -1,4 +1,4 @@
-﻿// Copyright 2015-2019 Rik Essenius
+﻿// Copyright 2016-2019 Rik Essenius
 //
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
 //   except in compliance with the License. You may obtain a copy of the License at
@@ -9,20 +9,14 @@
 //   is distributed on an "AS IS" BASIS WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //   See the License for the specific language governing permissions and limitations under the License.
 
-using Microsoft.Office.Interop.Excel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace ExcelFixtureTest
+namespace ExcelFixture
 {
-    [TestClass]
-    public class CoverageIssueTest
+    [AttributeUsage(AttributeTargets.All)]
+    internal class DocumentationAttribute : Attribute
     {
-        [TestMethod] //Test showing bug in ExcelInterop + code coverage. Does not seem to occur in Excel 2016
-        public void CodeCoverageTest()
-        {
-            var excel = new Application {Visible = true};
-            Assert.IsNotNull(excel);
-            excel.Quit();
-        }
+        public DocumentationAttribute(string message) => Message = message;
+        public string Message { get; }
     }
 }

@@ -1,12 +1,13 @@
-﻿// Copyright 2015-2017 Rik Essenius
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License. You may obtain a copy of the License at
+﻿// Copyright 2015-2019 Rik Essenius
 //
-//   http://www.apache.org/licenses/LICENSE-2.0
+//   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+//   except in compliance with the License. You may obtain a copy of the License at
 //
-// Unless required by applicable law or agreed to in writing, software distributed under the License is 
-// distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and limitations under the License.
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software distributed under the License 
+//   is distributed on an "AS IS" BASIS WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and limitations under the License.
 
 using System;
 using System.Data;
@@ -125,7 +126,6 @@ namespace ExcelFixtureTest
             Assert.AreEqual("=B11/60", _excel.FormulaOfCell("$B$12"));
         }
 
-
         [TestMethod]
         public void ExcelOffsetTest()
         {
@@ -155,8 +155,6 @@ namespace ExcelFixtureTest
         public void ExcelPropertiesTest()
         {
             Console.WriteLine(_excel.Properties("CostsPerMonth"));
-            //Assert.AreEqual("$B$10", _excel.CellProperty("CostsPerYear", "Address"));
-            //Assert.AreEqual("=60*(MAX(BuildTime-1,0)*0.01 + MAX(MIN(BuildTime-1,19),0)*0.04)", _excel.CellProperty("CostsPerMonth", "Formula"));
         }
 
         [TestMethod]
@@ -178,7 +176,6 @@ namespace ExcelFixtureTest
             Assert.IsTrue(_excel.UnprotectWorkbookWithPassword("secret"), "unprotect protected sheet");
             Assert.IsFalse(_excel.WorkbookIsProtected, "Workbook unprotected after Unprotect");
             var fileName = Path.GetTempFileName();
-            //_excel.ProtectWorkbookWithPassword("secret");
             _excel.SaveWorkbookAsWithPassword(fileName, "secret");
             Assert.IsTrue(_excel.CloseWorkbook(), "Close initial workbook");
             try
