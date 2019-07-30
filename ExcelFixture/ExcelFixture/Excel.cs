@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -19,6 +21,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace ExcelFixture
 {
+    [SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Breaking change")]
     [Documentation("Enabling testing Excel spreadsheets")]
     public class Excel
     {
@@ -81,9 +84,7 @@ namespace ExcelFixture
         [Documentation("Find a cell containing the specified text. Scope can be Partial or Whole.")]
         public object CellWithText(string scope, string dataToSearch)
         {
-            var lookAt = scope.StartsWith("part", StringComparison.InvariantCultureIgnoreCase)
-                ? XlLookAt.xlPart
-                : XlLookAt.xlWhole;
+            var lookAt = scope.StartsWith("part", StringComparison.InvariantCultureIgnoreCase) ? XlLookAt.xlPart : XlLookAt.xlWhole;
             var cell = CurrentWorksheet.Cells.Find(dataToSearch, LookAt: lookAt, MatchCase: false);
             return cell?.Address;
         }
@@ -97,10 +98,7 @@ namespace ExcelFixture
             {
                 if (button.Name != name && button.Text != name) continue;
                 var procedure = button.OnAction;
-                if (string.IsNullOrEmpty(procedure))
-                {
-                    return false;
-                }
+                if (string.IsNullOrEmpty(procedure)) return false;
                 ExcelApplication.Run(procedure);
                 return true;
             }
@@ -140,7 +138,7 @@ namespace ExcelFixture
         {
             object returnValue1 = _excel.Evaluate(expression);
             if (!IsError(returnValue1)) return returnValue1;
-            var message = "Error executing [" + expression + "]: " + CvErrors[Convert.ToInt32(returnValue1)];
+            var message = "Error executing [" + expression + "]: " + CvErrors[Convert.ToInt32(returnValue1, CultureInfo.InvariantCulture)];
             throw new EvaluateException(message);
         }
 
@@ -162,8 +160,8 @@ namespace ExcelFixture
         private bool LoadWorkbook(string path, bool readOnly, string password)
         {
             var fullPath = Path.GetFullPath(path);
-            _currentWorkbook = ExcelApplication.Workbooks.Open(fullPath, ReadOnly: readOnly, Password: password,
-                IgnoreReadOnlyRecommended: !readOnly);
+            _currentWorkbook =
+                ExcelApplication.Workbooks.Open(fullPath, ReadOnly: readOnly, Password: password, IgnoreReadOnlyRecommended: !readOnly);
             CurrentWorksheet = _currentWorkbook.ActiveSheet;
             return _currentWorkbook != null;
         }
@@ -213,8 +211,7 @@ namespace ExcelFixture
         {
             if (WorkbookIsProtected) return false;
 
-            // Protect doesn't automatically set Password. So do that separately.
-            // We need this since WorkbookIsProtected relies on HasPassword.
+            // Protect doesn't automatically set Password. So do that separately. We need this since WorkbookIsProtected relies on HasPassword.
             _currentWorkbook.Protect(password);
             _currentWorkbook.Password = password;
             return true;
@@ -288,8 +285,7 @@ namespace ExcelFixture
         public bool UnprotectWorkbookWithPassword(string password)
         {
             // setting the password property only works automatically when loading a sheet.
-            // So we need to clear it ourselves after a successful unprotect.
-            // We need that since WorkbookIsProtected relies on HasPassword.
+            // So we need to clear it ourselves after a successful unprotect. We need that since WorkbookIsProtected relies on HasPassword.
             try
             {
                 _currentWorkbook.Unprotect(password);
@@ -308,7 +304,7 @@ namespace ExcelFixture
             const int passwordError = -2146827284;
             try
             {
-                // Don't unprotect without password as that may cause an (invisible) dialog.
+                // Don't unprotect without password as that may cause an (invisible) dialog. 
                 // if the sheet is protected without password, the argument is ignored anyway.
                 CurrentWorksheet.Unprotect(password);
             }

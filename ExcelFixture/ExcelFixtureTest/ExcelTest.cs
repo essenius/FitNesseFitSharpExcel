@@ -12,6 +12,7 @@
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.InteropServices;
 using ExcelFixture;
@@ -33,13 +34,13 @@ namespace ExcelFixtureTest
         }
 
         [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            _excel.CloseExcel();
-        }
+        public static void ClassCleanup() => _excel.CloseExcel();
 
-        [ClassInitialize, DeploymentItem("ExcelFixtureTest\\ExcelFixtureTest.xlsm"),
-         DeploymentItem("ExcelFixtureTest\\TestSheet.xlsx")]
+        [SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "False positive")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "False positive")]
+        [ClassInitialize]
+        [DeploymentItem("ExcelFixtureTest\\ExcelFixtureTest.xlsm")]
+        [DeploymentItem("ExcelFixtureTest\\TestSheet.xlsx")]
         public static void ClassInitialize(TestContext testContext)
         {
             _excel = new Excel();
@@ -101,36 +102,25 @@ namespace ExcelFixtureTest
         [TestMethod]
         public void ExcelExecuteTest()
         {
-            // Value evaluation works
-            Assert.AreEqual(32D, _excel.Execute("2^5"));
-            // Function call works
-            Assert.AreEqual(34, _excel.Execute("Add(21, 13)"));
-            // return int until max int16
-            Assert.AreEqual(32767, _excel.Execute("Add(32766, 1)"));
-            // switch to double after max int16
-            Assert.AreEqual(32768D, _excel.Execute("Add(32767, 1)"));
-            // check whether CVError values do not erroneously raise an exception
-            Assert.AreEqual(-2146826252D, _excel.Execute("-2146826252"));
-            // Check if we can call a sub and if it executes.
-            Assert.IsTrue(_excel.SetValueOfCellTo("BuildTime", "50"));
+            Assert.AreEqual(32D, _excel.Execute("2^5"), "Value evaluation works");
+            Assert.AreEqual(34, _excel.Execute("Add(21, 13)"), "Function call works");
+            Assert.AreEqual(32767, _excel.Execute("Add(32766, 1)"), "return int until max int16");
+            Assert.AreEqual(32768D, _excel.Execute("Add(32767, 1)"), "switch to double after max int16");
+            Assert.AreEqual(-2146826252D, _excel.Execute("-2146826252"), "CVError values do not erroneously raise an exception");
+
+            Assert.IsTrue(_excel.SetValueOfCellTo("BuildTime", "50"), "Set build time value to 50");
             _excel.Execute("UpdateCostsPerYear()");
-            Assert.AreEqual(900D, _excel.ValueOfCell("CostsPerYear"));
-            Assert.IsTrue(_excel.SetValueOfCellTo("BuildTime", "110"));
+            Assert.AreEqual(900D, _excel.ValueOfCell("CostsPerYear"), "CostsPerYear correct. so sub executed");
+            Assert.IsTrue(_excel.SetValueOfCellTo("BuildTime", "110"), "Set value to 110");
             _excel.Execute("UpdateCostsPerYear()");
-            Assert.AreEqual(1332D, _excel.ValueOfCell("CostsPerYear"));
+            Assert.AreEqual(1332D, _excel.ValueOfCell("CostsPerYear"), "CostsPerYear correct again");
         }
 
         [TestMethod]
-        public void ExcelFormulaOfCellTeast()
-        {
-            Assert.AreEqual("=B11/60", _excel.FormulaOfCell("$B$12"));
-        }
+        public void ExcelFormulaOfCellTeast() => Assert.AreEqual("=B11/60", _excel.FormulaOfCell("$B$12"));
 
         [TestMethod]
-        public void ExcelOffsetTest()
-        {
-            Assert.AreEqual("$B$12", _excel.OffsetByRowsAndColumns("$A$9", 3, 1));
-        }
+        public void ExcelOffsetTest() => Assert.AreEqual("$B$12", _excel.OffsetByRowsAndColumns("$A$9", 3, 1));
 
         [TestMethod]
         public void ExcelOpenCloseWorkbookTest()
@@ -152,23 +142,16 @@ namespace ExcelFixtureTest
         }
 
         [TestMethod]
-        public void ExcelPropertiesTest()
-        {
-            Console.WriteLine(_excel.Properties("CostsPerMonth"));
-        }
+        public void ExcelPropertiesTest() => Console.WriteLine(_excel.Properties("CostsPerMonth"));
 
         [TestMethod]
-        public void ExcelTextOfCellTest()
-        {
-            Assert.AreEqual("Free hours", _excel.TextOfCell("A1"));
-        }
+        public void ExcelTextOfCellTest() => Assert.AreEqual("Free hours", _excel.TextOfCell("A1"));
 
         [TestMethod]
         public void ExcelWorkbookProtectionTest()
         {
             Assert.IsFalse(_excel.WorkbookIsProtected, "Workbook is not protected");
-            Assert.IsTrue(_excel.UnprotectWorkbookWithPassword(@"fout"),
-                "unprotection is ignored for unprotected workbooks");
+            Assert.IsTrue(_excel.UnprotectWorkbookWithPassword(@"fout"), "unprotection is ignored for unprotected workbooks");
             Assert.IsTrue(_excel.ProtectWorkbookWithPassword("secret"), "protect unprotected sheet");
             Assert.IsTrue(_excel.WorkbookIsProtected, "Workbook protected after Protect");
             Assert.IsFalse(_excel.ProtectWorkbookWithPassword("secret"), "protect already protected sheet fails");
@@ -242,8 +225,7 @@ namespace ExcelFixtureTest
             Assert.IsFalse(_excel.WorksheetIsProtectedWithPassword, "Worksheet is not protected with password");
             Assert.IsFalse(_excel.SetValueOfCellTo("A1", "4"), "Can't change protected sheet (4)");
             Assert.IsFalse(_excel.ProtectWorksheetWithPassword("test"), "Re-protecting fails");
-            Assert.IsFalse(_excel.WorksheetIsProtectedWithPassword,
-                "Worksheet is protected without password after reprotection");
+            Assert.IsFalse(_excel.WorksheetIsProtectedWithPassword, "Worksheet is protected without password after reprotection");
             Assert.IsTrue(_excel.UnprotectWorksheetWithPassword(string.Empty), "Unprotection without password succeeds");
             Assert.IsFalse(_excel.WorksheetIsProtected, "Worksheet is not protected afterwards");
             Assert.IsTrue(_excel.SetValueOfCellTo("A1", cellA1), "Can change A1 of unprotected sheet to original value");

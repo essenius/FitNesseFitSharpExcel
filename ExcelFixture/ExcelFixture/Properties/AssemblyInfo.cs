@@ -22,5 +22,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("929ee0ad-c7f1-430f-b073-213395816b42")]
-[assembly: AssemblyVersion("2.1.0")]
+[assembly: AssemblyVersion("2.1.1")]
 [assembly: InternalsVisibleTo("ExcelFixtureTest")]
