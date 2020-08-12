@@ -1,4 +1,6 @@
 ﻿2.0.0	Adopting Semantic Versioning with 3 levels.
 2.0.1   Moved to Excel 16.0 Office Library
 2.0.2   Increased code coverage
-2.1.0   Replaced FixtureExplorer dictionary by [Documentation] attributes 
+2.1.0   Replaced FixtureExplorer dictionary by [Documentation] attributes
+2.1.1   Enabled Roslyn based static analysis and fixed findings
+2.1.2   Replaced [Documentation] attributes by XML documentation

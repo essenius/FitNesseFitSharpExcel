@@ -1,4 +1,4 @@
-﻿// Copyright 2015-2019 Rik Essenius
+﻿// Copyright 2015-2020 Rik Essenius
 //
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
 //   except in compliance with the License. You may obtain a copy of the License at
@@ -15,24 +15,30 @@ using Microsoft.Office.Interop.Excel;
 
 namespace ExcelFixture
 {
+    /// <summary>Fixture to query a range of an Excel sheet</summary>
     public class ExcelQuery
     {
         private readonly string _options;
         private readonly Range _range;
 
-        [Documentation("Query a range of an excel sheet. Parameters: script fixture, range")]
+        /// <summary>Query a range of an excel sheet. Parameters: script fixture, range</summary>
+        /// <param name="excel">Fixture</param>
+        /// <param name="range">the range to use in Excel format (e.g. C4:D8)</param>
         public ExcelQuery(Excel excel, object range) : this(excel, range, string.Empty)
         {
         }
 
-        [Documentation("Query a range of an excel sheet. Parameters: script fixture, range, useheaders")]
+        /// <summary>Query a range of an excel sheet. Parameters: script fixture, range, useheaders</summary>
+        /// <param name="excel">script fixture</param>
+        /// <param name="range">range spec in Excel format (e.g. C4:D8)</param>
+        /// <param name="options">useheaders or nothing. If useheaders: the first row is expected to contain the headers</param>
         public ExcelQuery(Excel excel, object range, string options)
         {
             _range = excel.CurrentWorksheet.Range[range];
             _options = options;
         }
 
-        [Documentation("Return the selected data range as a query result")]
+        /// <returns>the selected data range as a query result</returns>
         public Collection<object> Query()
         {
             var headerCollection = new Collection<string>();

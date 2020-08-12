@@ -11,14 +11,15 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
+
 [assembly: AssemblyTitle("ExcelFixtureTest")]
 [assembly: AssemblyDescription("Test assembly for Excel fixture")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rik Essenius")]
 [assembly: AssemblyProduct("ExcelFixtureTest")]
-[assembly: AssemblyCopyright("Copyright © Rik Essenius 2015-2019")]
+[assembly: AssemblyCopyright("Copyright © Rik Essenius 2015-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("a8202dd7-847a-48b0-be94-4cfe4fa7a8d9")]
-[assembly: AssemblyVersion("2.1.1")]
+[assembly: AssemblyVersion("2.1.2")]

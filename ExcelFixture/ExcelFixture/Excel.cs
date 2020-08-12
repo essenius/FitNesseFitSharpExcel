@@ -1,4 +1,4 @@
-﻿// Copyright 2015-2019 Rik Essenius
+﻿// Copyright 2015-2020 Rik Essenius
 //
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
 //   except in compliance with the License. You may obtain a copy of the License at
@@ -21,8 +21,8 @@ using Microsoft.Office.Interop.Excel;
 
 namespace ExcelFixture
 {
+    /// <summary>Enabling testing Excel spreadsheets</summary>
     [SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Breaking change")]
-    [Documentation("Enabling testing Excel spreadsheets")]
     public class Excel
     {
         private static readonly Dictionary<int, string> CvErrors = new Dictionary<int, string>
@@ -43,19 +43,19 @@ namespace ExcelFixture
 
         private Application ExcelApplication => _excel ?? (_excel = new Application {Visible = false, DisplayAlerts = false});
 
-        [Documentation("Get the address of the bottom right cell of the sheet")]
+        /// <returns>the address of the bottom right cell of the sheet</returns>
         public string LastCell => CurrentWorksheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Address;
 
-        [Documentation("Check if the current workbook is protected")]
+        /// <returns>whether the current workbook is protected</returns>
         public bool WorkbookIsProtected => _currentWorkbook.HasPassword;
 
-        [Documentation("Check if the workbook is opened read-only")]
+        /// <returns>whether the workbook is opened read-only</returns>
         public bool WorkbookIsReadOnly => _currentWorkbook.ReadOnly;
 
-        [Documentation("Check if the current worksheet is protected (with or without password)")]
+        /// <returns>whether the current worksheet is protected (with or without password)</returns>
         public bool WorksheetIsProtected => CurrentWorksheet.ProtectContents;
 
-        [Documentation("Check if the current worksheet is protected with a password")]
+        /// <returns>whether the current worksheet is protected with a password</returns>
         public bool WorksheetIsProtectedWithPassword
         {
             get
@@ -79,9 +79,9 @@ namespace ExcelFixture
             }
         }
 
-        private static bool IsError(object obj) => obj is int i && CvErrors.ContainsKey(i);
-
-        [Documentation("Find a cell containing the specified text. Scope can be Partial or Whole.")]
+        /// <summary>Find a cell containing the specified text</summary>
+        /// <param name="scope">Partial or Whole</param>
+        /// <param name="dataToSearch">the data to search for</param>
         public object CellWithText(string scope, string dataToSearch)
         {
             var lookAt = scope.StartsWith("part", StringComparison.InvariantCultureIgnoreCase) ? XlLookAt.xlPart : XlLookAt.xlWhole;
@@ -89,7 +89,7 @@ namespace ExcelFixture
             return cell?.Address;
         }
 
-        [Documentation("Click a button")]
+        /// <summary>Click a button</summary>
         public bool ClickButton(string name)
         {
             var buttons = CurrentWorksheet.Buttons();
@@ -105,7 +105,7 @@ namespace ExcelFixture
             return false;
         }
 
-        [Documentation("Close the Excel application (without saving)")]
+        /// <summary>Close the Excel application (without saving)</summary>
         public void CloseExcel()
         {
             if (_excel == null) return;
@@ -116,7 +116,7 @@ namespace ExcelFixture
             _excel.Quit();
         }
 
-        [Documentation("Close the indicated workbook")]
+        /// <summary>Close the indicated workbook</summary>
         public bool CloseWorkbook(string workbookPath)
         {
             var workbook = FindWorkbook(workbookPath);
@@ -130,10 +130,10 @@ namespace ExcelFixture
             return FindWorkbook(workbookPath) == null;
         }
 
-        [Documentation("Close the current workbook")]
+        /// <summary>Close the current workbook</summary>
         public bool CloseWorkbook() => _currentWorkbook != null && CloseWorkbook(_currentWorkbook.FullName);
 
-        [Documentation("Execute a macro, function or expression")]
+        /// <summary>Execute a macro, function or expression</summary>
         public object Execute(string expression)
         {
             object returnValue1 = _excel.Evaluate(expression);
@@ -150,12 +150,14 @@ namespace ExcelFixture
                     workbook => workbook.FullName.Equals(fullPath, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Documentation("Get the formula of a certain cell")]
+        /// <returns>the formula of a certain cell</returns>
         public object FormulaOfCell(string cellLocation)
         {
             var cell = CurrentWorksheet.Range[cellLocation];
             return cell.Formula;
         }
+
+        private static bool IsError(object obj) => obj is int i && CvErrors.ContainsKey(i);
 
         private bool LoadWorkbook(string path, bool readOnly, string password)
         {
@@ -166,19 +168,19 @@ namespace ExcelFixture
             return _currentWorkbook != null;
         }
 
-        [Documentation("Load a workbook")]
+        /// <summary>Load a workbook</summary>
         public bool LoadWorkbook(string path) => LoadWorkbook(path, false, null);
 
-        [Documentation("Load a workbook in read-only mode (bypass read/write password dialog)")]
+        /// <summary>Load a workbook in read-only mode (bypass read/write password dialog)</summary>
         public bool LoadWorkbookReadOnly(string path) => LoadWorkbook(path, true, null);
 
-        [Documentation("Load a workbook in read only mode, and provide the password")]
+        /// <summary>Load a workbook in read only mode, and provide the password</summary>
         public bool LoadWorkbookReadOnlyWithPassword(string path, string password) => LoadWorkbook(path, true, password);
 
-        [Documentation("Load a workbook, providing a password")]
+        /// <summary>Load a workbook, providing a password</summary>
         public bool LoadWorkbookWithPassword(string path, string password) => LoadWorkbook(path, false, password);
 
-        [Documentation("Get the address of the range that is offset a number of columns and rows from the input range")]
+        /// <returns>the address of the range that is offset a number of columns and rows from the input range</returns>
         public object OffsetByRowsAndColumns(object cellLocation, object rows, object cols) =>
             CurrentWorksheet.Range[cellLocation].Offset[rows, cols]?.Address;
 
@@ -206,7 +208,7 @@ namespace ExcelFixture
             return retVal;
         }
 
-        [Documentation("Protect the current workbook")]
+        /// <summary>Protect the current workbook</summary>
         public bool ProtectWorkbookWithPassword(string password)
         {
             if (WorkbookIsProtected) return false;
@@ -217,7 +219,7 @@ namespace ExcelFixture
             return true;
         }
 
-        [Documentation("Protect the current worksheet")]
+        /// <summary>Protect the current worksheet</summary>
         public bool ProtectWorksheetWithPassword(string password)
         {
             // Protect ignores re-protection so let's not allow that.
@@ -239,7 +241,7 @@ namespace ExcelFixture
 
         internal void SaveWorkbookWithPassword(string password) => SaveWorkbookAsWithPassword(_currentWorkbook.FullName, password);
 
-        [Documentation("Switch to an already open workbook")]
+        /// <summary>Switch to an already open workbook</summary>
         public bool SelectWorkbook(string workbookPath)
         {
             var workbook = FindWorkbook(workbookPath);
@@ -249,7 +251,7 @@ namespace ExcelFixture
             return true;
         }
 
-        [Documentation("Switch to a worksheet of the current workbook")]
+        /// <summary>Switch to a worksheet of the current workbook</summary>
         public bool SelectWorksheet(string sheetName)
         {
             if (_currentWorkbook == null) return false;
@@ -259,7 +261,7 @@ namespace ExcelFixture
             return CurrentWorksheet != null;
         }
 
-        [Documentation("Set the value of a certain cell")]
+        /// <summary>Set the value of a certain cell</summary>
         public bool SetValueOfCellTo(string cellLocation, object value)
         {
             try
@@ -274,14 +276,14 @@ namespace ExcelFixture
             }
         }
 
-        [Documentation("Get the text in a certain cell (displayed text, not necessarily actual value)")]
+        /// <returns>the text in a certain cell (displayed text, not necessarily actual value)</returns>
         public object TextOfCell(string cellLocation)
         {
             var cell = CurrentWorksheet.Range[cellLocation];
             return cell.Text;
         }
 
-        [Documentation("Unprotect the current workbook")]
+        /// <summary>Unprotect the current workbook</summary>
         public bool UnprotectWorkbookWithPassword(string password)
         {
             // setting the password property only works automatically when loading a sheet.
@@ -298,7 +300,7 @@ namespace ExcelFixture
             return true;
         }
 
-        [Documentation("Unprotect the current worksheet")]
+        /// <summary>Unprotect the current worksheet</summary>
         public bool UnprotectWorksheetWithPassword(string password)
         {
             const int passwordError = -2146827284;
@@ -316,7 +318,7 @@ namespace ExcelFixture
             return true;
         }
 
-        [Documentation("Get the value of a certain cell")]
+        /// <returns>the value of a certain cell</returns>
         public object ValueOfCell(string cellLocation)
         {
             var cell = CurrentWorksheet.Range[cellLocation];

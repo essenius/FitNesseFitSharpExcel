@@ -1,4 +1,4 @@
-﻿// Copyright 2015-2019 Rik Essenius
+﻿// Copyright 2015-2020 Rik Essenius
 //
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
 //   except in compliance with the License. You may obtain a copy of the License at
@@ -36,11 +36,9 @@ namespace ExcelFixtureTest
         [ClassCleanup]
         public static void ClassCleanup() => _excel.CloseExcel();
 
-        [SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "False positive")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "False positive")]
-        [ClassInitialize]
-        [DeploymentItem("ExcelFixtureTest\\ExcelFixtureTest.xlsm")]
-        [DeploymentItem("ExcelFixtureTest\\TestSheet.xlsx")]
+        [SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "False positive"),
+         SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "False positive"), ClassInitialize,
+         DeploymentItem("ExcelFixtureTest\\ExcelFixtureTest.xlsm"), DeploymentItem("ExcelFixtureTest\\TestSheet.xlsx")]
         public static void ClassInitialize(TestContext testContext)
         {
             _excel = new Excel();
