@@ -13,5 +13,10 @@ This repo contains a fixture to enable testing of Excel spreadsheets along with 
 	java -jar C:\Apps\FitNesse\fitnesse-standalone.jar -d .
 8. Open a browser and enter the URL http://localhost:8080/FitSharpDemos.ExcelSuite?suite
 
+# Notes
+
+I decided not to port this fixture to .NET 5 since it is Windows specific anyway and the Office Interop Assemblies that this fixture depends on don't seem to work reliably in .NET 5.
+
 # Contribute
+
 Enter an issue or provide a pull request.
