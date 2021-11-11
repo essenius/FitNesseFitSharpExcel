@@ -1,7 +1,7 @@
 # FitNesseFitSharpExcel
 This repo contains a fixture to enable testing of Excel spreadsheets along with a number of demo FitNesse pages.
 It's a bit different from the other fixtures since it is based on .NET Framework 4.5, while all others use .NET 5.
-This is because the Excel fixture depends on functionality that is not available in .NET Core (Office Interop).
+This is because the Excel fixture depends on functionality that is not available in .NET Core (Office Interop Assemblies).
 
 # Installation
 The steps to install are very similar to that of installing the [FibonacciDemo](../../../FitNesseFitSharpFibonacciDemo).
