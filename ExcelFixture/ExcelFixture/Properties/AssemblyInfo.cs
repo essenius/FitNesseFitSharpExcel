@@ -1,4 +1,4 @@
-﻿// Copyright 2015-2020 Rik Essenius
+﻿// Copyright 2015-2021 Rik Essenius
 //
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
 //   except in compliance with the License. You may obtain a copy of the License at
@@ -18,10 +18,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rik Essenius")]
 [assembly: AssemblyProduct("ExcelFixture")]
-[assembly: AssemblyCopyright("Copyright © Rik Essenius 2015-2020")]
+[assembly: AssemblyCopyright("Copyright © Rik Essenius 2015-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("929ee0ad-c7f1-430f-b073-213395816b42")]
-[assembly: AssemblyVersion("2.1.2")]
+[assembly: AssemblyVersion("2.1.3")]
 [assembly: InternalsVisibleTo("ExcelFixtureTest")]

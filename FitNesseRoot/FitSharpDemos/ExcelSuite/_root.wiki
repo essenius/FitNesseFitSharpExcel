@@ -1,4 +1,1 @@
-!path "ExcelFixture\ExcelFixture\bin\release\ExcelFixture.dll"
-#!path "SupportFunctions\SupportFunctions.dll"
-
 !contents -R2 -g -p -f -h
