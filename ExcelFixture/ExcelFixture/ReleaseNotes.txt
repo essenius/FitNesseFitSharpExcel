@@ -5,3 +5,4 @@
 2.1.1   Enabled Roslyn based static analysis and fixed findings
 2.1.2   Replaced [Documentation] attributes by XML documentation
 2.1.3   Added config.xml
+2.2.0   Moved to .NET 4.8

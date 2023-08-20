@@ -1,1 +1,4 @@
+!define COMMAND_PATTERN {%m -c config.xml}
+!define TEST_RUNNER {${FITSHARP_HOME}\\..\\net48\\Runner.exe}
+
 !contents -R2 -g -p -f -h
