@@ -8,7 +8,7 @@ The steps to install are very similar to that of installing the [FibonacciDemo](
 
 Differences are:
 * Download the repo code as a zip file and extract the contents of the folder `FitNesseFitSharpExcel-master`. 
-* Since the fixture uses .NET Framework, you cannot build with the `dotnet` command. Use Visual Studio or msbuild instead. Or grab the binaries from the [releases](../../releases) and put them in `%LOCALAPPDATA%\FitNesse\ExcelFixture\ExcelFixture\bin\release`.
+* Since the fixture uses .NET Framework, you cannot build with the `dotnet` command. Use Visual Studio or msbuild instead, and take the contents from `ExcelFixtureTest\bin\Release`. Or grab the binaries from the [releases](../../releases) and put them in `%LOCALAPPDATA%\FitNesse\ExcelFixture\ExcelFixture\bin\Release`.
 * Go to folder: `cd /D %LOCALAPPDATA%\FitNesse\ExcelFixture\ExcelFixture\bin\release`.
 * Run the suite: Open a browser and enter the URL http://localhost:8080/FitSharpDemos.ExcelSuite?suite.
 

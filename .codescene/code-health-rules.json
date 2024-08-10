@@ -1,0 +1,19 @@
+{
+    "rule_sets": [
+        {
+            "thresholds": [
+                {
+                    "name": "unit_test_consecutive_asserts_for_large_block",
+                    "value": "6"
+                }
+            ],
+            "matching_content_path": "**/*",
+            "rules": [
+                {
+                    "name": "Large Assertion Blocks",
+                    "weight": 0
+                }
+            ]
+       }
+    ]
+}
